@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func CanGet(k string, def string) string {
@@ -12,6 +13,14 @@ func CanGet(k string, def string) string {
 		return def
 	}
 	return v
+}
+
+func CanGetSlice(k string, def []string) []string {
+	v := os.Getenv(k)
+	if v == "" {
+		return def
+	}
+	return strings.Split(v, ",")
 }
 
 func CanGetInt32(k string, def int) int {
@@ -33,6 +42,14 @@ func MustGet(k string) string {
 		panic(fmt.Errorf("ENV missing, key: " + k))
 	}
 	return v
+}
+
+func MustGetSlice(k string) []string {
+	v := os.Getenv(k)
+	if v == "" {
+		panic(fmt.Errorf("ENV missing, key: " + k))
+	}
+	return strings.Split(v, ",")
 }
 
 // MustGetBool will return the env as boolean or panic if it is not present

@@ -23,6 +23,18 @@ func CanGetSlice(k string, def []string) []string {
 	return strings.Split(v, ",")
 }
 
+func CanGetBool(k string, def bool) bool {
+	v := os.Getenv(k)
+	if v == "" {
+		return def
+	}
+	b, err := strconv.ParseBool(v)
+	if err != nil {
+		panic(fmt.Errorf("ENV err: [" + k + "]" + err.Error()))
+	}
+	return b
+}
+
 func CanGetInt32(k string, def int) int {
 	v := os.Getenv(k)
 	if v == "" {

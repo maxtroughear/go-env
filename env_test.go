@@ -32,6 +32,26 @@ func TestCanGetDefault(t *testing.T) {
 	}
 }
 
+func TestCanGetFileNotDefault(t *testing.T) {
+	def := "fail"
+	expect := "success text"
+	r := CanGet("testfile", def)
+
+	if r != expect {
+		t.Errorf("Failed to get correct env var from file for CanGet, go: %s, want %s", r, expect)
+	}
+}
+
+func TestCanGetFileDefault(t *testing.T) {
+	def := "success"
+	expect := def
+	r := CanGet("testfile_notexistant", def)
+
+	if r != expect {
+		t.Errorf("Failed to get the default env var from file for CanGet, go: %s, want %s", r, expect)
+	}
+}
+
 func TestCanGetSlice(t *testing.T) {
 	def := []string{
 		"default",
@@ -74,8 +94,8 @@ func TestCanGetSliceDefault(t *testing.T) {
 }
 
 func TestCanGetInt32(t *testing.T) {
-	def := 10
-	expect := 5
+	def := int32(10)
+	expect := int32(5)
 	r := CanGetInt32("testint32", def)
 
 	if r != expect {
@@ -84,7 +104,7 @@ func TestCanGetInt32(t *testing.T) {
 }
 
 func TestCanGetInt32Default(t *testing.T) {
-	def := 10
+	def := int32(10)
 	expect := def
 	r := CanGetInt32("testint32default", def)
 
@@ -198,7 +218,7 @@ func TestMustGetBoolPanicInvalid(t *testing.T) {
 }
 
 func TestMustGetInt32(t *testing.T) {
-	expect := 15
+	expect := int32(15)
 	r := MustGetInt32("testint32must")
 
 	if r != expect {
